@@ -30,11 +30,11 @@ gene_df <- read_delim("data_gof_lof_analysis/Homo_sapiens.gene_info","\t", escap
 #epilepsy AND ("GoF" OR "gain of function" OR "gain-of-function" OR "LoF" OR "loss of function" OR "loss-of-function") NOT systematic review[Filter] NOT review[Filter]
 
 #load csv file from pubmed
-PM_df <- read_csv("gof_lof_analysis/csv-epilepsyAN-set.csv")
+PM_df <- read_csv("data_gof_lof_analysis/csv-epilepsyAN-set.csv")
 
 #load abstracts from pubmed file to annotate them to the pmid-csvfile
 pubmed_data = read_lines(
-  "gof_lof_analysis/pubmed-epilepsyAN-set.txt",
+  "data_gof_lof_analysis/pubmed-epilepsyAN-set.txt",
   skip = 0,
   skip_empty_rows = FALSE,
   n_max = Inf
@@ -53,7 +53,7 @@ for(i in grep("^(AB  -)", pubmed_data$pubmed_data)){
 }
 
 pubmed_data = pubmed_data[grepl("^(AB  -|PMID-)", pubmed_data$pubmed_data),]
-saveRDS(pubmed_data, "gof_lof_analysis/pubmed_abstract_data")
+saveRDS(pubmed_data, "data_gof_lof_analysis/pubmed_abstract_data")
 
 #extract abstract of each PMID and add it to pubmed dataframe
 for(i in 1:nrow(PM_df)) {
@@ -72,7 +72,7 @@ for(i in 1:nrow(PM_df)) {
   }
   
 }
-saveRDS(PM_df, "gof_lof_analysis/pubmed_csv_with_abstract_data")
+saveRDS(PM_df, "data_gof_lof_analysis/pubmed_csv_with_abstract_data")
 PM_df <- readRDS("data_gof_lof_analysis/pubmed_csv_with_abstract_data")
 
 #### STEP 2: extract all genes from the abstracts using PubTator ####
@@ -124,7 +124,7 @@ names(gene_table) <- c("pmid","genename","geneID")
 
 gene_table <- separate_rows(gene_table, geneID, sep=";") #when there are several geneIDs split row in two (eg. CDKL5A/B -> two rows as two different IDs)
 
-saveRDS(gene_table, "gof_lof_analysis/genetable_epilepsy")
+saveRDS(gene_table, "data_gof_lof_analysis/genetable_epilepsy")
 
 
 #### STEP 3: Generate list of 50 most frequent genes and their abstracts and annotate whether the genes is mentioned with gof or lof term ####
@@ -214,7 +214,7 @@ plot = ggplot(plot_data, aes(fill=gof_lof, y=count, x=reorder(Symbol, -count))) 
   scale_fill_manual(values = c("#52854C", "#4E84C4", "#293352"))
 
 
-pdf("gof_lof_analysis/gof_lof_epilepsy_genes.pdf",width= 7,height= 4)
+pdf("data_gof_lof_analysis/gof_lof_epilepsy_genes.pdf",width= 7,height= 4)
 plot
 dev.off()
 
