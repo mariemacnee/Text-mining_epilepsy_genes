@@ -18,7 +18,7 @@ C) Manual quality control of all genes that were on average mentioned at least o
 
 D) Plotting of timeline of all remaining genes and their year of first reference using ggplot2. (X-axis= year, Y-axis= number of genes)
 
-![Figure 1](/data_gene_year_analysis/epilepsy_genes_timeline.pdf)
+![Figure 1](/data_gene_year_analysis/screenshot_fig1.png)
 
 ## B) Epilepsy-associated genes with Loss-of-Function and/or Gain-of-Function effect variants
 
@@ -36,7 +36,7 @@ C) Abstracts of the 50 most frequent genes were annotated with the information w
 
 D) Plotting (stacked barplot) of all genes with at least five abstracts and their association with LoF or GoF variants, or variants of both categories.
 
-![Figure 2](/data_gof_lof_analysis/gof_lof_epilepsy_genes.pdf)
+![Figure 2](/data_gof_lof_analysis/screenshot_fig2.png)
 
 ## References
 
