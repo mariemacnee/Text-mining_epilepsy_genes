@@ -5,7 +5,7 @@
 #   - STEP 2: extract all genes from the abstracts using PubTator
 #   - STEP 3: Generate list of most frequent genes and their first year of reference
 #   - STEP 4: Manual control of epilepsy associated genes and their year of first reference
-#   - STEP 5: Plot timeline of associated genes
+#   - STEP 5: Plot timeline of epilepsy-associated genes
 
 # load packages
 library(readr)
