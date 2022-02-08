@@ -1,6 +1,6 @@
 # Litertaure analysis of epilepsy-associated genes
 
-This repository contains scripts used for the generation of Figure 1 and 2 from the manuscript "From gene discovery in human epilepsies to variant interpretation", in review.
+This repository contains scripts used for the generation of Figure 1 and 2 from the manuscript "From gene discovery in human epilepsies to variant interpretation", submitted soon.
 
 ## 1) The history of epilepsy-associated genes and number of references since discovery
 
