@@ -145,9 +145,9 @@ gene_table = readRDS("data_gof_lof_analysis/genetable_epilepsy_with_annotated_ab
 PM_df_gof_lof = PM_df
 LOFGOF_genes = merge(PM_df_gof_lof, gene_table, by.x="PMID", by.y="pmid", all.x = T)
 
-LOFGOF_genes = LOFGOF_genes[!is.na(match(LOFGOF_genes$geneID, gene_df$GeneID)),] 
+LOFGOF_genes = LOFGOF_genes[!is.na(match(as.numeric(LOFGOF_genes$geneID), gene_df$GeneID)),] 
 LOFGOF_genes <- merge(LOFGOF_genes, gene_df, by.x = "geneID", by.y = "GeneID")
-top50_lof_gof_genes = names(sort(table(LOFGOF_genes$geneID), decreasing=T)[1:50])
+top50_lof_gof_genes = names( table(LOFGOF_genes$geneID)[table(LOFGOF_genes$geneID)>= 5])
 LOFGOF_genes = LOFGOF_genes[LOFGOF_genes$geneID  %in% top50_lof_gof_genes, ]
 
 ##only keep genes that are in the epilepsy gene -year plot
