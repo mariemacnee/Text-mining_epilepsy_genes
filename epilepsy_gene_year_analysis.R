@@ -73,7 +73,7 @@ for(i in 1:nrow(PM_df)) {
 
 }
 saveRDS(PM_df, "data_gene_year_analysis/pubmed_csv_with_abstract_data")
-
+PM_df = readRDS("data_gene_year_analysis/pubmed_csv_with_abstract_data")
 
 
 #### STEP2: extract all genes from the abstracts using PubTator ####
@@ -126,7 +126,7 @@ names(gene_table) <- c("pmid","genename","geneID")
 gene_table <- separate_rows(gene_table, geneID, sep=";") #when there are several geneIDs split row in two (eg. CDKL5A/B -> two rows as two different IDs)
 
 saveRDS(gene_table, "data_gene_year_analysis/genetable_epilepsy")
-
+gene_table = readRDS("data_gene_year_analysis/genetable_epilepsy")
 
 #### STEP3: Generate list of most frequent genes and their first year of reference  ####
 
@@ -141,6 +141,7 @@ gene_table <- gene_table %>%
   separate(`Create Date`, c("year", "month", "day"), "-")
 
 saveRDS(gene_table, "data_gene_year_analysis/genetable_epilepsy_with_annotated_abstracts")
+gene_table = readRDS("data_gene_year_analysis/genetable_epilepsy_with_annotated_abstracts")
 
 ###only keep earliest entry of each gene
 unique_gene_table <- data.frame()
@@ -174,15 +175,17 @@ unique_gene_table <- merge(unique_gene_table, gene_df, by.x = "geneID", by.y = "
 unique_gene_table$year <- as.numeric(unique_gene_table$year)
 unique_gene_table$abstracts_year <- unique_gene_table$freq / ((2021 - unique_gene_table$year)+1) 
 unique_gene_table <- unique_gene_table[order(unique_gene_table$freq, decreasing=T),]
-colnames(unique_gene_table) <- c("ID","PMID","Gene","doi","title","year","month","day","jabbrv","journal","freq","Symbol", "abstracts_year")
+#colnames(unique_gene_table) <- c("ID","PMID","Gene","doi","title","year","month","day","jabbrv","journal","freq","Symbol", "abstracts_year")
 
 #annotate established epilepsy genes
 unique_gene_table$epilepsygene <- unique_gene_table$Symbol %in% as.character(epilepsy_genes$gene)
 unique_gene_table$epilepsygene <- ifelse(unique_gene_table$epilepsygene == TRUE, "epilepsygene (Heyne et al., Lindy et al., ClinGen)", "no epilepsygene")
 
+#save broader epilepsy genes
+writexl::write_xlsx(unique_gene_table[unique_gene_table$freq>2,], "data_gene_year_analysis/epilepsy_genes_more_>2_abstracts.xlsx")
+
 #filter to genes to plot that have at least one publication per year on average
 plot_data <- as.data.frame(unique_gene_table[unique_gene_table$abstracts_year > 1| unique_gene_table$epilepsygene == "epilepsygene (Heyne et al., Lindy et al., ClinGen)",])
-
 
 ###write top genes and known epilepsy genes to excel file for manual check (check genes for PubTator errors and year of first reference)
 writexl::write_xlsx(plot_data, "data_gene_year_analysis/epilepsy_genes_manual_check.xlsx")
